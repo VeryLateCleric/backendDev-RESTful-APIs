@@ -11,6 +11,8 @@ app.get("/notes/:noteId", (req, res, next) => {
   if (foundNote) {
     res.json({ data: foundNote });
   } else {
+    const error = new Error(`Note ID not found: ${noteId}`);
+    error.statue = 404;
     next(error);
   }
 });
