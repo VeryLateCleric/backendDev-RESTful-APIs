@@ -25,20 +25,20 @@ app.get("/notes", (req, res) => {
 // TODO: Add ability to create a new note status:STARTED
 // POST /notes to make new notes
 app.post("/notes", (req, res, next) => {
-  const { data: { text } = {} } = req.body;
+  const { data } = req.body;
 
-if (text) {
+  if (!data || typeof data.text !== 'string' || data.text.trim() === "") {
+    const error = new Error("Note text is required");
+    error.status = 400;
+    return next(error);
+  }
+  
   const newId = notes.length ? notes[notes.length - 1].id + 1 : 1;
   const newNote = { id: newId, text };
 
   notes.push(newNotes);
-  res.status(201)
-} else {
-  const error = new Error("Note text is required");
-  error.status = 400;
-  next(error);
-}
-})
+  res.status(201).json({ data: newNote });
+});
 
 // TODO: Add not-found handler status:DONE
 app.use((req, res, next) => {
