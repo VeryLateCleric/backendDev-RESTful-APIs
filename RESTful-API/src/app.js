@@ -11,7 +11,7 @@ app.get("/notes/:noteId", (req, res, next) => {
   if (foundNote) {
     res.json({ data: foundNote });
   } else {
-    const error = new Error(`Note ID not found: ${noteId}`);
+    const error = new Error(`Note id not found: ${noteId}`);
     error.statue = 404;
     next(error);
   }
@@ -22,6 +22,7 @@ app.get("/notes", (req, res) => {
 });
 
 // TODO: Add ability to create a new note
+
 
 // TODO: Add not-found handler
 app.use((req, res, next) => {
