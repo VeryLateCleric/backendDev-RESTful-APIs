@@ -17,21 +17,37 @@ app.get("/notes/:noteId", (req, res, next) => {
   }
 });
 
+
 app.get("/notes", (req, res) => {
   res.json({ data: notes });
 });
 
-// TODO: Add ability to create a new note
+// TODO: Add ability to create a new note status:STARTED
+// POST /notes to make new notes
+app.post("/notes", (req, res, next) => {
+  const { data: { text } = {} } = req.body;
 
+if (text) {
+  const newId = notes.length ? notes[notes.length - 1].id + 1 : 1;
+  const newNote = { id: newId, text };
 
-// TODO: Add not-found handler
+  notes.push(newNotes);
+  res.status(201)
+} else {
+  const error = new Error("Note text is required");
+  error.status = 400;
+  next(error);
+}
+})
+
+// TODO: Add not-found handler status:DONE
 app.use((req, res, next) => {
   const error = new Error(`Not found: ${req.originalUrl}`);
   error.status = 404;
   next(error);
 });
 
-// TODO: Add error handler
+// TODO: Add error handler status:DONE
 app.use((error, req, res, next) => {
   res.status(error.status || 500).json({ error: error.message });
 });
