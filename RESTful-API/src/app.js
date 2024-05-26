@@ -34,9 +34,9 @@ app.post("/notes", (req, res, next) => {
   }
   
   const newId = notes.length ? notes[notes.length - 1].id + 1 : 1;
-  const newNote = { id: newId, text };
+  const newNote = { id: newId, text: data.text.trim() };
 
-  notes.push(newNotes);
+  notes.push(newNote);
   res.status(201).json({ data: newNote });
 });
 
